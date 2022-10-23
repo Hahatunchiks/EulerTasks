@@ -3,7 +3,8 @@ on: [push]
 
 
 jobs:
-  build:
+  build_job:
+    name: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +20,9 @@ jobs:
         run: ghci FifthSolutions.hs
       - name : Build OK
         run: echo "Build success"
+
   lint-tools:
+    name: lint
      runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
