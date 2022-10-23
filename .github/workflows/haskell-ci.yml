@@ -7,5 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build 
+      - name: Build first
         run: ghci FirstSolutions.hs
+      - name: Build second
+        run: ghci SecondSolutions.hs
+      - name: Build third
+        run: ghci ThirdSolutions.hs
+      - name: Build fourth
+        run: ghci FourthSolutions.hs
+      - name: Build fifth
+        run: ghci FifthSolutions.hs
+        run: echo "Build success"
