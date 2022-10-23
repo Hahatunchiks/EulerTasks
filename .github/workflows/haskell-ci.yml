@@ -23,7 +23,7 @@ jobs:
 
   lint-tools:
     name: lint
-     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: check lint
