@@ -18,10 +18,10 @@ jobs:
         run: cd src && ghci ThirdSolution.hs
 
       - name: Build fourth
-        run: cd src && ghci FourthSolution.hs --check
+        run: cd src && ghci FourthSolution.hs 
 
       - name: Build fifth
-        run: cd src && ghci FifthSolutions.hs --check
+        run: cd src && ghci FifthSolution.hs
 
   lint-tools:
     runs-on: ubuntu-latest
