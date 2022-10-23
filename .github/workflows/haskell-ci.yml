@@ -1,0 +1,12 @@
+name: euler-project-actions
+on: [push]
+
+
+jobs:
+  static-dynamic-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build 
+        path: /src
+        run: ghci FirstSolutions.hs
