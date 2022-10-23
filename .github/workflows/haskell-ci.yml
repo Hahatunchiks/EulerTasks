@@ -8,5 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build 
-        path: /src
         run: ghci FirstSolutions.hs
