@@ -9,19 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build first
-        run: cd src && ghci FirstSolutions.hs
+        run: cd src && ghci FirstSolution.hs
 
       - name: Build second 
-        run: cd src && ghci SecondSolutions.hs
+        run: cd src && ghci SecondSolution.hs
 
       - name: Build third
-        run: cd src && ghci ThirdSolutions.hs
+        run: cd src && ghci ThirdSolution.hs
 
       - name: Build fourth
-        run: cd src && ghci FourthSolutions.hs
+        run: cd src && ghci FourthSolution.hs
 
       - name: Build fifth
-        run: cd src && ghci FifthSolutions.hs
+        run: cd src && ghci FifthSolution.hs
 
   lint-tools:
     runs-on: ubuntu-latest
