@@ -22,8 +22,6 @@ jobs:
 
       - name: Build fifth
         run: cd src && ghci FifthSolutions.hs
-        with:
-          fail-on: warning
 
   lint-tools:
     runs-on: ubuntu-latest
