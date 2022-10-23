@@ -9,25 +9,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build first
-        with:
-          path: src/
         run: ghci FirstSolutions.hs
+        with:
+          path: src/
       - name: Build second 
-        with:
-          path: src/
         run: ghci SecondSolutions.hs
+        with:
+          path: src/
       - name: Build third
-        with:
-          path: src/
         run: ghci ThirdSolutions.hs
+        with:
+          path: src/
       - name: Build fourth
-        with:
-          path: src/
         run: ghci FourthSolutions.hs
-      - name: Build fifth
         with:
           path: src/
+      - name: Build fifth
         run: ghci FifthSolutions.hs
+        with:
+          path: src/
 
   lint-tools:
     runs-on: ubuntu-latest
