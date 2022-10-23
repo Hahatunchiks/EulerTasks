@@ -1,5 +1,3 @@
-{-# LANGUAGE MultiWayIf #-}
-
 module ThirdSolution where
 import Utils
 
