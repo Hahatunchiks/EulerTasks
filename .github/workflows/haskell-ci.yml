@@ -6,6 +6,8 @@ jobs:
   build_job:
     name: build
     runs-on: ubuntu-latest
+    with:
+      path: src/
     steps:
       - uses: actions/checkout@v2
       - name: Build first
