@@ -26,8 +26,7 @@ largestPalindrome x y  =
 -- return list of factors
 factors :: Int -> [Bool]
 factors x = 
-    if  | x <= 0 -> [True] 
-        | otherwise -> map (\y -> (x `mod` y) == 0) [2..x-1]
+    if  x <= 0 then [True] else map (\y -> (x `mod` y) == 0) [2..x-1]
 
 
 or' :: Bool -> Bool -> Bool
@@ -46,5 +45,4 @@ calcPrimes :: Int -> Int -> Int -> Int
 calcPrimes a b x  = 
     let n = calcFormula a b x
     in
-        if  | isPrime n -> calcPrimes a b (x+1)
-            | otherwise -> x
+        if  isPrime n then calcPrimes a b (x+1) else x

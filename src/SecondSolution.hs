@@ -35,8 +35,7 @@ generateSeq list a b =
 
 max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
 max' x y = 
-    if  | snd x > snd y -> x
-        | otherwise -> y
+    if  snd x > snd y then x else y
 
 solution27 :: Int
 solution27 = 

@@ -9,8 +9,7 @@ import Utils
 -- return largest palindrome product for [x..999] * [999.100]
 largestPalindromeProduct :: Int -> Int-> Int
 largestPalindromeProduct x acc = 
-    if  | x == 1000 -> acc
-        | otherwise -> largestPalindromeProduct (x+1) (max (largestPalindrome x 999) acc)
+    if  x == 1000 then acc else largestPalindromeProduct (x+1) (max (largestPalindrome x 999) acc)
 
 -- return largest palindrome product for [100..999] * [999.100]
 solution4 :: Int

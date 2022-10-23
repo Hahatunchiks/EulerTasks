@@ -23,8 +23,7 @@ calcPrimes' input a b  =
         x = head input
         n = if x <= 1000 then calcFormula a b x else (-1)
     in
-        if  | isPrime n -> calcPrimes' (tail input) a b 
-            | otherwise -> x
+        if  isPrime n then calcPrimes' (tail input) a b else  x
     
 
 quadraticPrimes :: Int -> Int -> Int -> Int -> Int

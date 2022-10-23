@@ -21,8 +21,7 @@ generateSeq  = map (\a -> map (\b -> (a*b,calcPrimes a b 0)) [(-10)..10] ) [(-9)
 
 max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
 max' x y = 
-    if  | snd x > snd y -> x
-        | otherwise -> y
+    if  snd x > snd y then x else y
 
 maxInList :: [(Int, Int)] -> (Int, Int)
 maxInList  =  foldl1 max'
