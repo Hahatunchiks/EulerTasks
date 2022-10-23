@@ -1,4 +1,4 @@
-module ThirdSolution where
+module ThirdSolution (solution27Map, solution4Map) where
 import Utils
 
 {-
@@ -8,8 +8,8 @@ import Utils
 -- 4 problem 
 
 
-solution4 :: Int
-solution4  = maximum $ map (`largestPalindrome` 999) [100..999]
+solution4Map :: Int
+solution4Map  = maximum $ map (`largestPalindrome` 999) [100..999]
 
 
 --27 problem
@@ -24,5 +24,5 @@ max' x y =
 maxInList :: [(Int, Int)] -> (Int, Int)
 maxInList  =  foldl1 max'
 
-solution27 :: Int
-solution27 = fst $ foldl max' (0,0) $ map maxInList generateSeq
+solution27Map :: Int
+solution27Map = fst $ foldl max' (0,0) $ map maxInList generateSeq

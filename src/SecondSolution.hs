@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module SecondSolution  where
+module SecondSolution  (solution4ModuleImpl, solution27ModuleImpl )where
 import Utils
 {-
    Solutions with separated modules: sequence generation, sequence filtering, sequence folding
@@ -20,8 +20,8 @@ filterProducts :: [Int] -> [Int]
 filterProducts = filter isPalindrome 
 
 -- get maximal palindrome
-solution4 :: Int
-solution4 = foldl max 0 $ filterProducts $ generateProducts [] 100 100
+solution4ModuleImpl :: Int
+solution4ModuleImpl = foldl max 0 $ filterProducts $ generateProducts [] 100 100
 
 
 
@@ -37,8 +37,8 @@ max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
 max' x y = 
     if  snd x > snd y then x else y
 
-solution27 :: Int
-solution27 = 
+solution27ModuleImpl :: Int
+solution27ModuleImpl = 
     let 
         generated = generateSeq [] 9 10
     in

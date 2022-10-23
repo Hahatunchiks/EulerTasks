@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module FifthSolution where
+module FifthSolution (solution4InfList, solution27InfList) where
 import Utils
 
 largestPalindromeProduct :: [Int] -> [Int] -> [Int] 
@@ -10,8 +10,8 @@ largestPalindromeProduct input palindromes =
     in
         if   x == (-1) then palindromes else largestPalindromeProduct (tail input) (x : palindromes)
 
-solution4 :: Int
-solution4  = maximum $ largestPalindromeProduct [1..] []
+solution4InfList :: Int
+solution4InfList  = maximum $ largestPalindromeProduct [1..] []
 
 
 -- 27 problem
@@ -25,16 +25,16 @@ calcPrimes' input a b  =
         if  isPrime n then calcPrimes' (tail input) a b else  x
     
 
-quadraticPrimes :: Int -> Int -> Int -> Int -> Int
-quadraticPrimes a b result product = 
+quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
+quadraticPrimes' a b result productMy = 
     let amount = calcPrimes' [0..] a b 
         newResult = if a < 10 && b <= 10 && amount > result then amount else result
-        newProduct = if a < 10 && b <= 10 && amount > result then a*b else product
+        newProduct = if a < 10 && b <= 10 && amount > result then a*b else productMy
     in
     if  | a >= 10 -> newProduct
-        | b > 10 -> quadraticPrimes (a+1) (-10) newResult newProduct
-        | otherwise -> quadraticPrimes a (b+1) newResult newProduct
+        | b > 10 -> quadraticPrimes' (a+1) (-10) newResult newProduct
+        | otherwise -> quadraticPrimes' a (b+1) newResult newProduct
 
 
-solution27 :: Int
-solution27 = quadraticPrimes (-9) (-10) 0 0
+solution27InfList :: Int
+solution27InfList = quadraticPrimes' (-9) (-10) 0 0

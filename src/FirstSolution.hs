@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module FirstSolution  where
+module FirstSolution (solution4TailRec, solution27TailRec) where
 import Utils
 
 --4 problem
@@ -12,8 +12,8 @@ largestPalindromeProduct x acc =
     if  x == 1000 then acc else largestPalindromeProduct (x+1) (max (largestPalindrome x 999) acc)
 
 -- return largest palindrome product for [100..999] * [999.100]
-solution4 :: Int
-solution4 = largestPalindromeProduct 100 0
+solution4TailRec :: Int
+solution4TailRec = largestPalindromeProduct 100 0
 
 
 --27 problem
@@ -32,5 +32,5 @@ quadraticPrimes a b x  result product maxR =
             | otherwise -> quadraticPrimes a (b-1) 0 0 newProduct maxRes
 
 
-solution27 :: Int
-solution27 = quadraticPrimes 9 10 0 0 0 0
+solution27TailRec :: Int
+solution27TailRec = quadraticPrimes 9 10 0 0 0 0
