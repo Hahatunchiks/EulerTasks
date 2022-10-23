@@ -1,26 +1,46 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module SecondSolution (solution) where
+module SecondSolution  where
+import Utils
+{-
+   Solutions with separated modules: sequence generation, sequence filtering, sequence folding
+-}
 
-isPalindrome :: Int -> Bool
-isPalindrome n = let s = show n in s == reverse s
+-- 4 problem: Largest palindrome product
 
-largestPalindrome :: Int -> Int -> Int
-largestPalindrome x y  =
-    if  | y <= 0 -> 0
-        | isPalindrome (x*y) -> x * y
-        | otherwise -> largestPalindrome x (y-1)
+-- generate a sequence of products [100..999] X [ 100..999]
+generateProducts :: [Int] -> Int -> Int -> [Int]
+generateProducts  list x y =
+    if  | y > 999 -> generateProducts list (x+1) 100
+        | x > 999 -> list
+        | otherwise -> generateProducts ((x*y) : list) x (y+1)
+
+-- filter our products, return palindromes
+filterProducts :: [Int] -> [Int]
+filterProducts = filter isPalindrome 
+
+-- get maximal palindrome
+solution4 :: Int
+solution4 = foldl max 0 $ filterProducts $ generateProducts [] 100 100
 
 
-generatePalindromes :: [Int]
-generatePalindromes  = map (\x -> largestPalindrome x 999) [1..999]
 
+-- 27 problem: Quadratic primes
 
-max' :: Int -> Int -> Int
-max' x y =
-    if  |  x >= y -> x
+generateSeq :: [(Int, Int)] -> Int -> Int -> [(Int, Int)]
+generateSeq list a b = 
+    if  | a < (-9) -> list
+        | b < (-10) -> generateSeq  ((a*b, calcPrimes a b 0) : list) (a-1) 10
+        | otherwise -> generateSeq   ((a*b, calcPrimes a b 0) : list) a (b-1)
+
+max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
+max' x y = 
+    if  | snd x > snd y -> x
         | otherwise -> y
 
-
-solution :: Int
-solution = foldl max' 0 generatePalindromes
+solution27 :: Int
+solution27 = 
+    let 
+        generated = generateSeq [] 9 10
+    in
+        fst $ foldl1 max' generated
