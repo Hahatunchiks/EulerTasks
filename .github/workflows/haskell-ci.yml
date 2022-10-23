@@ -21,7 +21,9 @@ jobs:
         run: cd src && ghci FourthSolution.hs
 
       - name: Build fifth
-        run: cd src && ghci FifthSolution.hs
+        run: cd src && ghci FifthSolutions.hs
+        with:
+          fail-on: warning
 
   lint-tools:
     runs-on: ubuntu-latest
@@ -37,3 +39,4 @@ jobs:
       uses: rwe/actions-hlint-run@v2
       with:
         path: src/
+        fail-on: warning
