@@ -8,8 +8,7 @@ largestPalindromeProduct input palindromes =
     let
         x = largestPalindrome (head input) 999
     in
-        if  | x == (-1) -> palindromes
-            | otherwise -> largestPalindromeProduct (tail input) (x : palindromes)
+        if   x == (-1) then palindromes else largestPalindromeProduct (tail input) (x : palindromes)
 
 solution4 :: Int
 solution4  = maximum $ largestPalindromeProduct [1..] []
