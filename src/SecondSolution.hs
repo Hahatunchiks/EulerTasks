@@ -27,6 +27,7 @@ solution4ModuleImpl = foldl max 0 $ filterProducts $ generateProducts [] 100 100
 
 -- 27 problem: Quadratic primes
 
+-- generating a sequence of the number of primes for all a and b
 generateSeq :: [(Int, Int)] -> Int -> Int -> [(Int, Int)]
 generateSeq list a b = 
     if  | a < (-9) -> list

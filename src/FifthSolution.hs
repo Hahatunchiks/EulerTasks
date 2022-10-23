@@ -3,6 +3,7 @@
 module FifthSolution (solution4InfList, solution27InfList) where
 import Utils
 
+-- handle one by one element from infinite list, while it less 999
 largestPalindromeProduct :: [Int] -> [Int] -> [Int] 
 largestPalindromeProduct input palindromes = 
     let
@@ -16,6 +17,7 @@ solution4InfList  = maximum $ largestPalindromeProduct [1..] []
 
 -- 27 problem
 
+-- returns the number of first sequental primes
 calcPrimes' :: [Int] -> Int -> Int -> Int
 calcPrimes' input a b  = 
     let 
@@ -24,7 +26,7 @@ calcPrimes' input a b  =
     in
         if  isPrime n then calcPrimes' (tail input) a b else  x
     
-
+-- recursive change a and b and return a*b for maximal calcPrimes'
 quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
 quadraticPrimes' a b result productMy = 
     let amount = calcPrimes' [0..] a b 
