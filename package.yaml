@@ -56,4 +56,9 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - test-framework
+    - test-framework-hunit
+    - tasty
+    - tasty-hunit
+    - HUnit
     - lab1

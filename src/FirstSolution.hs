@@ -20,10 +20,10 @@ solution4TailRec = largestPalindromeProduct 100 0
 -- tail recursive solution
 
 quadraticPrimes :: Int -> Int -> Int -> Int -> Int -> Int -> Int
-quadraticPrimes a b x  result product maxR = 
+quadraticPrimes a b x  result product' maxR = 
     let 
         maxRes = if result > maxR then result else maxR
-        newProduct = if result > maxR then a*b else product
+        newProduct = if result > maxR then a*b else product'
         n = calcFormula a b x
     in
         if  | isPrime n -> quadraticPrimes a b (x+1) (result+1) newProduct maxRes
