@@ -153,145 +153,120 @@ __Лабораторная работа №1__
 
         return largest;
     }
-    
+
     ```
-Функция вернет генератор, в котором все числа фибоначчи до заданного лимита. А функции `filter` и `sum` соответственно отсеют нечетные и найдут сумму оставшихся чисел.
+Функция перебирает все пары чисел в диапазоне [1..999] и возвращает наибольшее произведение, являющееся палиндромом
 
 ### Problem 29
 
 1. __монолитная реализация__
     + __хвостовая рекурсия__
     ```
-    (define (loop-a limit a b unique)
-      (if (> a limit) unique (loop-a limit (add1 a) b (set-add unique (expt a b)))))
+    
+    quadraticPrimes :: Int -> Int -> Int -> Int -> Int -> Int -> Int
+    quadraticPrimes a b x  result product maxR = 
+        let 
+            maxRes = if result > maxR then result else maxR
+            newProduct = if result > maxR then a*b else product
+            n = calcFormula a b x
+        in
+            if  | isPrime n -> quadraticPrimes a b (x+1) (result+1) newProduct maxRes
+                | a < (-10) -> newProduct
+                | b <= (-10)  -> quadraticPrimes (a-1) 10 0 0 newProduct maxRes
+                | otherwise -> quadraticPrimes a (b-1) 0 0 newProduct maxRes
 
-    (define (loop-b high-limit lower-limit b unique)
-      (if (> b high-limit)
-          unique
-          (loop-b
-            high-limit
-            lower-limit
-            (add1 b)
-            (loop-a high-limit lower-limit b unique))))
-
-    (define (distinct-powers left right)
-      (if (< right left)
-          (raise (make-exn:fail:contract "Invalid parameters passed"))
-          (set-count (loop-b right left left (set)))))
-
-    (distinct-powers 2 100)
+    solution27TailRec :: Int
+    solution27TailRec = quadraticPrimes 9 10 0 0 0 0
     ```
-    В параметрах `a` и `b` `loop-a` и `loop-b` указываются счетчики циклов. А в параметре `unique` собирается результирующее множество чисел $a^b$ путем объединения с уже полученными множествами на предыдущих итерациях. Затем находим мощность множества с помощью `set-count`.
 
     + __рекурсия__
     ```
-    (define (inner-loop init limit b)
-      (define a init)
-      (if (= a limit)
-        (set (expt a b))
-        (set-add (inner-loop (add1 a) limit b) (expt a b))))
+    --
+    quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
+    quadraticPrimes' a b result productMy = 
+        let amount = calcPrimes a b 0
+            newResult = if a < 10 && b <= 10 && amount > result then amount else result
+            newProduct = if a < 10 && b <= 10 && amount > result then a*b else productMy
+        in
+        if  | a >= 10 -> newProduct
+            | b > 10 -> quadraticPrimes' (a + 1) (-10) newResult newProduct
+            | otherwise -> quadraticPrimes' a (b+1) newResult newProduct
 
-    (define (external-loop init-b init-a limit-b limit-a)
-      (define b init-b)
-      (if (= b limit-b)
-          (inner-loop init-a limit-a b)
-          (set-union
-            (external-loop (add1 b) init-a limit-b limit-a)
-            (inner-loop init-a limit-a b))))
-
-    (define (distinct-powers left right)
-      (if (negative? right)
-          (raise (make-exn:fail:contract "Invalid right value passed"))
-          (set-count (external-loop left left right right))))
-
-    (distinct-powers 2 100)
+    solution27Rec :: Int
+    solution27Rec = quadraticPrimes' (-9) (-10) 0 0
     ```
-    Рекурсивная реализация строит множество с помощью двух функций, одна для внешнего цикла – степени числа, другая для вложенного цикла – основания. У результирующего множества находим затем его мощность.
 
 2. __модульная реализация__
-```
-(define (distinct-powers left right)
-  (foldl +
-         0
-         (map (lambda (n) (quotient n n))
-              (remove-duplicates
-                (let ([powers (build-list (add1 (- right left))
-                                                           (lambda (n) (+ n left)))])
-                                   (for*/list ([a powers] [b powers])
-                                     (expt a b)))))))
+    ```
 
-(distinct-powers 2 100)
-```
-Во вложенном цикле собираем список из всевозможных комбинаций `a` и `b`. Убираем повторения и с помощью `(quotient n n)` заменяем все числа на `1`, сумма этих единиц и даст длину списка, что является ответом на задачу.
+    -- generating a sequence of the number of primes for all a and b
+    generateSeq :: [(Int, Int)] -> Int -> Int -> [(Int, Int)]
+    generateSeq list a b = 
+        if  | a < (-9) -> list
+            | b < (-10) -> generateSeq  ((a*b, calcPrimes a b 0) : list) (a-1) 10
+            | otherwise -> generateSeq   ((a*b, calcPrimes a b 0) : list) a (b-1)
+
+    max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
+    max' x y = 
+        if  snd x > snd y then x else y
+
+    solution27ModuleImpl :: Int
+    solution27ModuleImpl = 
+        let 
+            generated = generateSeq [] 9 10
+        in
+            fst $ foldl1 max' generated
+    ```
 
 3. __генерация последовательности при помощи отображения (map)__
-```
-(define (distinct-powers left right)
-  (foldl +
-         0
-         (map (lambda (n) (quotient n n))
-              (remove-duplicates
-                (append* (let ([powers (inclusive-range left right)])
-                                            (for/list ([a powers])
-                                              (map (lambda (n) (expt n a)) powers))))))))
+    ```
+    -- generating a sequence of the number of primes for all a and b
+    generateSeq ::  [[(Int, Int)]]
+    generateSeq  = map (\a -> map (\b -> (a*b,calcPrimes a b 0)) [(-10)..10] ) [(-9)..9] 
 
-(distinct-powers 2 100)
-```
-С помощью самого внутреннего вызова map мы формируем получаем список чисел вида $a^n$, где `n` меняется от `2` до `100` в цикле `for/list`, и все полученные списки организуются в один список, получаются списки в списке, который приводим к одномерному списку с помощью формы `append*`. Следующий `map` нужен, чтобы заменить все уникальные числа вида $a^b$ на `1`, хитрый вызов `(quotient n n)` нужен только, чтобы линтер не ругался, что в лямбде не используется параметр `n`. И полученный список из `1`, сворачиваем в сумму, что и будет длиной этого списка и ответом на задачу.
+    -- compare two pairs by the number of primes
+    max' :: (Int, Int) -> (Int, Int) -> (Int, Int)
+    max' x y = 
+        if  snd x > snd y then x else y
 
-4. __работа со спец. синтаксисом для циклов__
-```
-(define (distinct-powers left right)
-  (for/fold ([length 0])
-            ([distinct-power
-              (for/fold ([acc '()])
-                        ([a-b (let ([powers (build-list (add1 (- right left))
-                                                        (lambda (n) (+ n left)))])
-                                (for*/list ([a powers] [b powers])
-                                  (expt a b)))])
-                (if (= (length (filter (lambda (x) (equal? x a-b)) acc)) 0)
-                  (list* a-b acc)
-                  acc))])
-    (if (number? distinct-power)
-        (add1 length)
-        (raise-argument-error 'incorrect-type "number?" distinct-power))))
+    -- get maximal element from list, using max' for compare
+    maxInList :: [(Int, Int)] -> (Int, Int)
+    maxInList  =  foldl1 max'
 
-(distinct-powers 2 100)
-```
-Специальный цикл `for*/list` позволяет пройтись по всем комбинациям поданных итерируемых коллекциях и собрать все это в единый список. Затем с помощью цикла `for/fold` мы собираем это в еще один список, убрав все повторения путем того, что мы в нашем собираемом списке проверяем, есть ли уже данный элемент. И только затем, с помощью еще одного цикла `for/fold`, мы получаем количество чисел в полученном множестве.
+    solution27Map :: Int
+    solution27Map = fst $ foldl max' (0,0) $ map maxInList generateSeq
+    ```
 
 5. __работа с бесконечными списками для языков поддерживающих ленивые коллекции или итераторы как часть языка__
-```
-(define (distinct-powers left right)
-  (stream-length (for/stream ([i
-                               (remove-duplicates
-                                (let ([powers (in-inclusive-range left right)])
-                                  (stream->list (for*/stream ([a powers] [b powers]) (expt a b)))))])
-                             i)))
+    ```
+    -- returns the number of first sequental primes
+    calcPrimes' :: [Int] -> Int -> Int -> Int
+    calcPrimes' input a b  = 
+        let 
+            x = head input
+            n = if x <= 1000 then calcFormula a b x else (-1)
+        in
+            if  isPrime n then calcPrimes' (tail input) a b else  x
+    
+    -- recursive change a and b and return a*b for maximal calcPrimes'
+    quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
+    quadraticPrimes' a b result productMy = 
+        let amount = calcPrimes' [0..] a b 
+            newResult = if a < 1000 && b <= 1000 && amount > result then amount else result
+            newProduct = if a < 1000 && b <= 1000 && amount > result then a*b else productMy
+        in
+        if  | a >= 1000 -> newProduct
+            | b > 1000 -> quadraticPrimes' (a+1) (-1000) newResult newProduct
+            | otherwise -> quadraticPrimes' a (b+1) newResult newProduct
 
-(distinct-powers 2 100)
-```
-С помощью `for*/stream` организуется вложенный цикл по всем комбинациям `a` и `b`, которые затем собираются в стрим, который преобразуется в список, из которого мы убираем повторения, затем снова собираем список в стрим и находим его длину. Моя попытка решения с использованием только стримов и собственной функции удаления повторений приводила к слишком долгим вычислениям в частности из-за ленивости стримов, который вычислялся только в конце, когда вызывалась функция `stream-length`.
+
+    solution27InfList :: Int
+    solution27InfList = quadraticPrimes' (-999) (-1000) 0 0
+    ```
 
 6. __реализация на любом удобном языке программировании__
-```
-def distinct_powers(a_bounds: Tuple[int, int] = (0, 0),
-        b_bounds: Tuple[int, int] = (0, 0)) -> Set[int]:
-    a_left, a_right = a_bounds
-    b_left, b_right = b_bounds
-    result = set()
-    for base_a in range(a_left, a_right + 1):
-        for exponent_b in range(b_left, b_right + 1):
-            result.add(base_a**exponent_b)
-    return result
-
-
-def main():
-    bounds = (2, 100)
-    print(len(distinct_powers(bounds, bounds)))
-```
-Решение в лоб. Во вложенном цикле добавляем $a^b$ в множество, тем самым получаем множество чисел без повторений и просто берем его мощность.
+    ```
+    
+    ```
 
 ## Выводы
-
-В ходе выполнения данной лабораторной работы я освоил базовые приемы и абстракции языка __Racket__. Рекурсия, функции свертки, отображения и другие потоковые функции, списки, последовательности и стримы. Формы передачи потока управления в виде различных циклов, условных форм `if` и `cond`. Формы для организации локальных привязок с помощью `let`.
