@@ -18,9 +18,7 @@ jobs:
         run: ghci FourthSolutions.hs
       - name: Build fifth
         run: ghci FifthSolutions.hs
-      - name : Build OK
-        run: echo "Build success" >>$GITHUB_OUTPUT
-
+        
   lint-tools:
     runs-on: ubuntu-latest
     steps:
