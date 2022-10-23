@@ -22,9 +22,17 @@ jobs:
         run: echo "Build success"
 
   lint-tools:
-    name: lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: check lint
-        run: hlint /src
+    - uses: actions/checkout@v2
+
+    - name: 'Set up HLint'
+      uses: rwe/actions-hlint-setup@v1
+      with:
+        version: '3.1.6'
+
+    - name: 'Run HLint'
+      uses: rwe/actions-hlint-run@v2
+      with:
+        path: src/
+        fail-on: warning
