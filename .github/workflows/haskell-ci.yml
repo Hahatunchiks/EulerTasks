@@ -6,21 +6,22 @@ jobs:
   build_job:
     name: build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: src
     steps:
       - uses: actions/checkout@v2
       - name: Build first
+        working-directory: src
         run: ghci FirstSolutions.hs
       - name: Build second 
+        working-directory: src
         run: ghci SecondSolutions.hs
       - name: Build third
+        working-directory: src
         run: ghci ThirdSolutions.hs
       - name: Build fourth
+        working-directory: src
         run: ghci FourthSolutions.hs
       - name: Build fifth
+        working-directory: src
         run: ghci FifthSolutions.hs
 
   lint-tools:
