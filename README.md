@@ -162,7 +162,7 @@ __Лабораторная работа №1__
 1. __монолитная реализация__
     + __хвостовая рекурсия__
     ```
-    
+
     quadraticPrimes :: Int -> Int -> Int -> Int -> Int -> Int -> Int
     quadraticPrimes a b x  result product maxR = 
         let 
@@ -183,10 +183,10 @@ __Лабораторная работа №1__
     ```
     --
     quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
-    quadraticPrimes' a b result productMy = 
+    quadraticPrimes' a b result product' = 
         let amount = calcPrimes a b 0
             newResult = if a < 10 && b <= 10 && amount > result then amount else result
-            newProduct = if a < 10 && b <= 10 && amount > result then a*b else productMy
+            newProduct = if a < 10 && b <= 10 && amount > result then a*b else product'
         in
         if  | a >= 10 -> newProduct
             | b > 10 -> quadraticPrimes' (a + 1) (-10) newResult newProduct
@@ -250,10 +250,10 @@ __Лабораторная работа №1__
     
     -- recursive change a and b and return a*b for maximal calcPrimes'
     quadraticPrimes' :: Int -> Int -> Int -> Int -> Int
-    quadraticPrimes' a b result productMy = 
+    quadraticPrimes' a b result product' = 
         let amount = calcPrimes' [0..] a b 
             newResult = if a < 1000 && b <= 1000 && amount > result then amount else result
-            newProduct = if a < 1000 && b <= 1000 && amount > result then a*b else productMy
+            newProduct = if a < 1000 && b <= 1000 && amount > result then a*b else product'
         in
         if  | a >= 1000 -> newProduct
             | b > 1000 -> quadraticPrimes' (a+1) (-1000) newResult newProduct
@@ -266,7 +266,43 @@ __Лабораторная работа №1__
 
 6. __реализация на любом удобном языке программировании__
     ```
-    
+    bool isPrime(int x) {
+        if(x < 0) return false;
+        for(long long i = 2; i * i <= x ; i++) {
+            if(x % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    int result(int a, int b, int x) {
+        return x*x + a*x + b;
+    }
+
+    int MaxAB() {
+        int max = 0;
+        int maxA = 0, maxB = 0;
+        for(int a = -999; a <= 999; a++) {
+            for(int b = -1000; b <= 1000; b++ ) {
+                int localCounter = 0;
+                for(int x = 0; ; x++) {
+                    if(isPrime(result(a, b, x))) {
+                        localCounter++;
+                    } else {
+                        break;
+                    }
+                }
+                if(max < localCounter) {
+                    max = localCounter;
+                    maxA = a;
+                    maxB = b;
+                }
+            }
+        }
+        return maxA * maxB;
+    }
     ```
 
 ## Выводы
+В ходе выполнения лабораторной работы мною были изученые основные конструкции языка haskell, различные виды записи if, функции свертки и фильтрации foldl, filter, 
+функция отображения map, работа со списками в т.ч с бесконечными. Также мною была применена рекурсия и хвостовая рекурсия в языке haskell.
