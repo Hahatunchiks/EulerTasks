@@ -159,6 +159,32 @@ __Лабораторная работа №1__
 
 ### Problem 27
 
+### Вспомогательные функции.
+```
+    -- return list of factors
+    factors :: Int -> [Bool]
+    factors x = 
+        if  x <= 0 then [True] else map (\y -> (x `mod` y) == 0) [2..x-1]
+
+
+    or' :: Bool -> Bool -> Bool
+    or' x y = x || y
+
+    -- check that given number is prime
+    isPrime :: Int -> Bool  
+    isPrime x = not (foldl or' False (factors x))
+
+    -- calculate formula - x^2 + a*x + b
+    calcFormula :: Int -> Int -> Int -> Int
+    calcFormula a b x = x*x + a*x + b
+
+    -- get the size of the sequence
+    calcPrimes :: Int -> Int -> Int -> Int
+    calcPrimes a b x  = 
+        let n = calcFormula a b x
+        in
+            if  isPrime n then calcPrimes a b (x+1) else x
+    ```
 1. __монолитная реализация__
     + __хвостовая рекурсия__
     ```
