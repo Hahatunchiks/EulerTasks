@@ -184,7 +184,7 @@ __Лабораторная работа №1__
         let n = calcFormula a b x
         in
             if  isPrime n then calcPrimes a b (x+1) else x
-    ```
+```
 1. __монолитная реализация__
     + __хвостовая рекурсия__
     ```
